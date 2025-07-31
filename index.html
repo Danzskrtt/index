@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy National Girlfriend Day!</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            --primary: #ff6b9c;
+            --secondary: #ff8fab;
+            --accent: #ffb3c6;
+            --light: #fff0f3;
+            --dark: #590d22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent) 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .heart-divider {
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .memory-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .memory-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .card-date {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .love-letter {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 1px solid var(--accent);
+        }
+
+        .love-letter:before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 20px;
+            border: 2px dashed var(--primary);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .love-letter h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .love-letter p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .countdown {
+            text-align: center;
+            margin: 3rem 0;
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .interactive-section {
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: var(--dark);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Thank You Image Styles */
+        .thank-you-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: scaleIn 0.5s ease-out forwards;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Confetti styles */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function CoverPage() {
+            const [showMail, setShowMail] = useState(false);
+
+            const handleYes = () => {
+                setShowMail(true);
+            };
+
+            const handleNo = () => {
+                alert("Awww try again :<");
+            };
+
+            if (showMail) {
+                return <MailPrompt />;
+            }
+
+            return (
+                <div style={{textAlign: 'center', padding: '50px'}}>
+                    <img src="bb.png.jpeg" alt="Happy Girlfriend Day" 
+                         style={{width: '100%', maxWidth: '500px', marginBottom: '20px'}} />
+                    <h1>Happy Girlfriend Day!</h1>
+                    <p>August 1, 2025</p>
+                    <p>Click this button :) </p>
+                    <button onClick={() => setShowMail(true)}>Next!</button>
+                </div>
+            );
+        }
+
+        function MailPrompt() {
+            const [showMain, setShowMain] = useState(false);
+
+            const handleYes = () => {
+                setShowMain(true);
+            };
+
+            const handleNo = () => {
+                alert("Awww try again :< what if mag cry nalng ako :( I press ng yes button ba mangluod gyud ko HAAHHAHAHA");
+            };
+
+            if (showMain) {
+                return <MainContent />;
+            }
+
+            return (
+                <div style={{textAlign: 'center', padding: '50px'}}>
+                    <img src="cute-kawaii-mail-envelope-with-postal-letter-vector.jpg" alt="A mail package" 
+                         style={{width: '100%', maxWidth: '300px', marginBottom: '20px'}} />
+                    <h2>Do you want to open it?</h2>
+                    <button onClick={handleYes} style={{marginRight: '10px'}}>Yes</button>
+                    <button onClick={handleNo}>No</button>
+                </div>
+            );
+        }
+
+        function MainContent() {
+            const [showConfetti, setShowConfetti] = useState(false);
+            const [daysTogether, setDaysTogether] = useState(0);
+            const [memories, setMemories] = useState([
+                {
+                    id: 1,
+                    title: "Our First Date",
+                    date: "April 16, 2025",
+                    description: "The day first time ta nag date and nag eat tas paresan kay wla paka nka try adto nya 2hrs ra ang date kay lage gi tawag sa amahan HAHHAHAHA",
+                    image: "firstdate.jpeg"
+                },
+                {
+                    id: 2,
+                    title: "Nature Trip Date",
+                    date: "Jun 22, 2025",
+                    description: "Monthsary nto HAAHAHHA, unforgettable date ntos Heavens Peak and Lake Danao na sulit gyd tibuok adlaw i miss this ga mini vlog ta drive dung didto and make stops for breathtaking views and ka duha ta na saag para ma ara lng na place HAHAHAHA and nanimba ta after which is our first church date i love u sm my baby :<",
+                    image: "aebb659d-8c2b-4dcc-bc1b-ecf7b95614b9.jpeg"
+                },
+                {
+                    id: 3,
+                    title: "Photobooth Date",
+                    date: "June 16, 2025",
+                    description: "Grabe ka kag kilig ani na time rag na buang sa photobooth sag ako sd im trying my best to hold back my kilig sd arn ma tarung ang pic cute kay ta ari na pic and timing sd gi dugo ka ani na time atong nag lunch kay gi dugo ka i miss doing photobooth with u when nxt nto? hihi",
+                    image: "photobooth.jpeg"
+                },
+                {
+                    id: 4,
+                    title: "Cinema Date",
+                    date: "June 28, 2025",
+                    description: "Nag watch ta anig F1 movie absolutge cinema talaga yung movie hyped up na kay ta ato kay we been waiting mka lugar ato na adlaw mka kita ta cuz nag start na imoa klase ato na time, we bought snacks sa cinema i love that we both clingy to each other sa pinaka tumoy na seat arn alone ta didto nya funny kaayu we been holding na dle ta mka ihi kay lage we dont wanna miss few mins of the movie and ending wla na pugong HAAHHAH",
+                    image: "fe7b6640-a0f3-4607-8a2b-4c9e4a5e4771.jpeg"
+                },
+                {
+                    id: 5,
+                    title: "Jog Date",
+                    date: "June 6, 2025",
+                    description: "ni mata tag 4 ani sayo sa buntag kuha sa gopro sa pikas balay nimo then nag vlog ta and nag jog tas pinyahan nag 5km ta adto mura tag mamatay then then after jog nag quick stop tas 711 sa simangan arn mag breakfast hihi",
+                    image: "jog.jpeg"
+                },
+                {
+                    id: 6,
+                    title: "Mini Road Trip Date",
+                    date: "June 10, 2025",
+                    description: "Ang plano mn unta ato picnic date pero na change ug coffee date ug dle ko ka gamit sakyanan pero nka gamit mn nag buy tag foods sa rob tambay sa pinyahan then suddenly ni ana ko mag road trip ta and u said g nag pa gas up ta then otw nas isabel me so fast ato pag drive and nakig karera atong xapander sorry bb AHHAHAHA 1hr kapin ra ang isabel uys back and forth igo rta mka pic and see views adto sa isabel then uli na kay na dali ka kay bday sa both sides imo lola so far nka abot ra balik safe and sound nka buy ug cake and everything hihi",
+                    image: "isabel.jpeg"
+                }
+            ]);
+
+            const [showThankYou, setShowThankYou] = useState(false);
+            
+            const handleSurpriseClick = () => {
+                setShowConfetti(true);
+                setShowThankYou(true);
+                setTimeout(() => {
+                    setShowConfetti(false);
+                    setShowThankYou(false);
+                }, 5000);
+            };
+
+            // Calculate days together from your anniversary date
+            useEffect(() => {
+                const anniversary = new Date('2025-04-22'); // Replace with your actual anniversary date
+                const today = new Date();
+                const diffTime = Math.abs(today - anniversary);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                setDaysTogether(diffDays);
+            }, []);
+
+            return (
+                <div className="container">
+                    <header>
+                        <h1>Happy National Girlfriend Day!</h1>
+                        <p className="subtitle">To the most pretty maldita girlfriend in the world!</p>
+                    </header>
+
+                    <div className="heart-divider">
+                        <span>❤️</span>
+                        <span>❤️</span>
+                        <span>❤️</span>
+                    </div>
+
+                    <div className="countdown">
+                        <h2>Celebrating {daysTogether} wonderful days together!</h2>
+                    </div>
+
+                    <div className="gallery">
+                        {memories.map(memory => (
+                            <div className="memory-card" key={memory.id}>
+                                <div className="card-image">
+                                    <img src={memory.image} alt={`Memory: ${memory.title}`} />
+                                </div>
+                                <div className="card-content">
+                                    <h3 className="card-title">{memory.title}</h3>
+                                    <p className="card-date">{memory.date}</p>
+                                    <p className="card-description">{memory.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="heart-divider">
+                        <span>❤️</span>
+                        <span>❤️</span>
+                        <span>❤️</span>
+                    </div>
+
+                    <div className="love-letter">
+                        <h2>A Letter to You</h2>
+                        <p>My Everything,</p>
+                        <p>I just want you to know how thankful I am every day to call you mine. You’re one of a kind — and yes, even when you’re being maldita, I still wouldn’t trade you for anything. In fact, I love that side of you. It shows you’re passionate, strong, and real. And honestly, it’s kinda cute too (even when I act like it’s not 😅).</p>
+                        <p>What I admire most, though, is how understanding you are. You always try to see where I’m coming from, even when I’m not the best at expressing myself. You listen, you adjust, and you love me through it all — and that means the world to me.</p>
+                        <p>Thank you for being my constant, my comfort, and my favorite person all in one. You make my days lighter, happier, and full of purpose.</p>
+                        <p>I love you for everything you are — the sweet, the maldita, the soft, the strong. I’m proud to call you my girlfriend today and every day.
+
+</p>
+                        <p>Forever yours,</p>
+                        <p>Dane Colibao</p>
+                        <p className="floating" style={{fontSize: '1.5rem', color: 'var(--primary)'}}>❤️</p>
+                    </div>
+
+                    <div className="interactive-section">
+                        <button onClick={handleSurpriseClick}>Click for a Surprise!</button>
+                    </div>
+
+                    {showConfetti && <Confetti />}
+                    {showThankYou && (
+                        <img 
+                            src="kiss.jpeg" 
+                            className="thank-you-image" 
+                            alt="Thank you message with hearts"
+                        />
+                    )}
+
+                </div>
+            );
+        }
+
+        function Confetti() {
+            const [confetti, setConfetti] = useState([]);
+
+            useEffect(() => {
+                // Create confetti particles
+                const particles = Array.from({ length: 60 }).map((_, i) => ({
+                    id: i,
+                    left: Math.random() * 100,
+                    animationDuration: Math.random() * 3 + 2,
+                    delay: Math.random() * 5,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                }));
+
+                setConfetti(particles);
+            }, []);
+
+            return (
+                <div className="confetti-container">
+                    {confetti.map(particle => (
+                        <div
+                            key={particle.id}
+                            style={{
+                                position: 'absolute',
+                                left: `${particle.left}%`,
+                                fontSize: `${Math.random() * 20 + 15}px`,
+                                color: particle.color,
+                                animation: `fall ${particle.animationDuration}s linear ${particle.delay}s infinite`,
+                                opacity: 0.8
+                            }}
+                        >
+                            ❤️
+                        </div>
+                    ))}
+                    <style>{`
+                        @keyframes fall {
+                            0% {
+                                transform: translateY(-100vh) rotate(-20deg);
+                            }
+                            50% {
+                                transform: translateY(-50vh) rotate(20deg);
+                            }
+                            100% {
+                                transform: translateY(100vh) rotate(-20deg);
+                            }
+                        }
+                    `}</style>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<CoverPage />);
+    </script>
+</body>
+</html>
